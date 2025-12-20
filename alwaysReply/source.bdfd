@@ -1,8 +1,10 @@
 $nomention
 $httpGet[$getVar[httpBase]/data/rarity.json]
 $jsonParse[$httpResult]
-$if[$getServerVar[setup]]
+$if[$getServerVar[direct]!=none]
     $setServerVar[messageCounter;$sum[$getServerVar[messageCounter];1]]
+$else
+    $stop
 $endif
 $if[$getServerVar[messageCounter]>=$getServerVar[thresholdCounter]]
     $var[chance;$random[1;1001]]
