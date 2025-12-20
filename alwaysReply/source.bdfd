@@ -1,7 +1,6 @@
 $nomention
-$httpGet[$getVar[httpBase]/]
-
-$jsonParse[]
+$httpGet[$getVar[httpBase]/data/rarity.json]
+$jsonParse[$httpResult]
 $if[$getServerVar[setup]]
     $setServerVar[messageCounter;$sum[$getServerVar[messageCounter];1]]
 $endif
