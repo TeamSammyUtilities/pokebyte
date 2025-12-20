@@ -1,1 +1,33 @@
-a
+$nomention
+$jsonParse[]
+$if[$getServerVar[setup]]
+    $setServerVar[messageCounter;$sum[$getServerVar[messageCounter];1]]
+$endif
+$if[$getServerVar[messageCounter]>=$getServerVar[thresholdCounter]]
+    $var[chance;$random[1;1001]]
+    $if[$var[chance]<=600]
+        $var[categoryChance;$random[1;427]]
+        $var[pokemonID;$json[common;$var[categoryChance]]]
+    $elseif[$var[chance]<=800]
+        $var[categoryChance;$random[1;333]]
+        $var[pokemonID;$json[uncommon;$var[categoryChance]]]
+    $elseif[$var[chance]<=950]
+        $var[categoryChance;$random[1;174]]
+        $var[pokemonID;$json[rare;$var[categoryChance]]]
+    $elseif[$var[chance]<=999]
+        $var[categoryChance;$random[1;72]]
+        $var[pokemonID;$json[legendary;$var[categoryChance]]]
+    $else
+        $var[categoryChance;$random[1;24]]
+        $var[pokemonID;$json[mythical;$var[categoryChance]]]
+    $endif
+    $useChannel[$getServerVar[direct]]
+    $title[Catch the Pokémon]
+    $description[Use @pokébyte catch/c <name> to catch the pokemon]
+    $image[https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$var[pokemonID].png]
+    $footer[@Pokébyte#4536]
+    $footerIcon[$userAvatar[$botID]]
+    $color[E0FFFF]
+    $setServerVar[pokemon;$var[pokemonID]]
+    $setServerVar[messageCounter;0]
+$endif
