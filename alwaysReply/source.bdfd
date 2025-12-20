@@ -1,8 +1,6 @@
 $nomention
 $httpGet[$getVar[httpBase]/data/rarity.json]
 $jsonParse[$httpResult]
-Water falls
-$stop
 $if[$getServerVar[direct]!=none]
     $setServerVar[messageCounter;$sum[$getServerVar[messageCounter];1]]
 $else
