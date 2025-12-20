@@ -1,4 +1,6 @@
 $nomention
+$httpGet[$getVar[httpBase]/]
+
 $jsonParse[]
 $if[$getServerVar[setup]]
     $setServerVar[messageCounter;$sum[$getServerVar[messageCounter];1]]
