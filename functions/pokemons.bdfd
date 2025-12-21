@@ -1,0 +1,14 @@
+$jsonParse[$var[mons]]
+$if[$jsonExists[mons;$var[counter]]]
+    $var[pokeid;$json[mons;$var[counter]]]
+    $var[counter;$sum[$var[counter];1]]
+    $jsonParse[$var[names]]
+    $var[name;$json[$var[pokeid]]]
+    $jsonParse[$var[emojis]]
+    $var[emoji;$json[$var[pokeid]]]
+    $if[$var[pageNo]<39]
+        $var[description;$var[description]`$var[counter]` - <:_:$var[emoji]>$toTitleCase[$var[name]]#]
+    $else
+        $var[description;$var[description]`$sum[$var[counter];800]` - <:_:$var[emoji]>$toTitleCase[$var[name]]#]
+    $endif
+$endif
