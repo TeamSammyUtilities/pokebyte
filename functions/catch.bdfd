@@ -1,0 +1,44 @@
+$argsCheck[1;@Pokébyte#4536 catch/c <pokemon>]
+$if[$getUserVar[started]]
+    $if[$getServerVar[pokemon]!=none]
+        $httpGet[$getVar[httpBase]/data/pokemonsID.json]
+        $jsonParse[$httpResult]
+        $var[name;$json[$getServerVar[pokemon]]]
+        $httpGet[$getVar[httpBase]/data/pokemonsEmoji.json]
+        $jsonParse[$httpResult]
+        $var[emoji;$json[$getServerVar[pokemon]]]
+        $if[$var[name]==$toLowercase[$message[3]]]
+            $jsonParse[{"mons":$getUserVar[pokemonsCaught]}]
+            $if[$jsonArrayIndex[mons;$getServerVar[pokemon]]==-1]
+                $var[caught;false]
+                $if[$jsonArrayCount[mons]!=800]
+                    $var[caught;pokemonsCaught]
+                $else:
+                    $jsonParse[{"mons":$getUserVar[pokemonsCaughtB]}]
+                    $if[$jsonArrayIndex[mons;$getServerVar[pokemon]]==-1]
+                        $if[$jsonArrayCount[mons]!=800]
+                            $var[caught;pokemonsCaughtB]
+                        $else
+                            Your Pokébank is full! (This shouldn't be possible! This is a bug!)
+                        $endif
+                    $else
+                        You already caught this Pokémon
+                    $endif
+                $endif
+                $if[$var[caught]!=false]
+                    $jsonArrayAppend[mons;$getServerVar[pokemon]]
+                    $setUserVar[$var[caught];$json[mons]]
+                    $setUserVar[bytecoins;$sum[$getUserVar[bytecoins];15]]
+                    $setServerVar[pokemon;none;$guildID]
+                    <@$userID[$username]> caught a $toTitleCase[$var[name]]<:_:$var[emoji]>! rewarded 15 Bytecoins.
+                $endif
+            $else
+                You already caught this Pokémon!
+            $endif
+        $else
+            Wrong Pokémon name!
+        $endif
+    $endif
+$else
+    You haven't pick your starter yet! @Pokébyte#4536 start
+$endif
